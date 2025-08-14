@@ -13,8 +13,16 @@ export default function Home() {
 		if (typeof zuzycie !== "number" || isNaN(zuzycie)) {
 			throw new Error("Argument musi być liczbą");
 		}
-		const miesieczneZuzycie = Number((zuzycie / 6).toFixed(2));
-		const oplataZaSmieci = Number((miesieczneZuzycie * STAWKA).toFixed(2));
+
+		function roundAndFixToTwoDecimals(num: number) {
+			/** helper function to round up from 5 in specific cases */
+			const factor = Math.pow(10, 2);
+			const rounded = (Math.round((num + Number.EPSILON) * factor) / factor).toFixed(2);
+			return Number(rounded)
+		}
+
+		const miesieczneZuzycie = roundAndFixToTwoDecimals(Number((zuzycie / 6)));
+		const oplataZaSmieci = roundAndFixToTwoDecimals(Number((miesieczneZuzycie * STAWKA)));
 		return {
 			zuzycie,
 			miesieczneZuzycie,

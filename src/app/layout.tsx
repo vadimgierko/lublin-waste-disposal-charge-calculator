@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import Layout from "@/layout";
 
 export const metadata: Metadata = {
-	title: "Kalkulator opłat za śmieci w Lublinie",
+	title: "Kalkulator stawki za odpady w Lublinie",
 	description:
 		"Oblicz miesięczną stawkę opłat za śmieci w Lublinie w oparciu o rozliczenie zużycia wody",
 	authors: { name: "Vadim Gierko", url: "https://vadimgierko.com" },
