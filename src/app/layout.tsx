@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="pl" data-bs-theme="light">
-			<body className="container-sm text-center d-flex flex-column">
+			<body className="text-center d-flex flex-column">
 				<Layout>{children}</Layout>
 			</body>
 		</html>

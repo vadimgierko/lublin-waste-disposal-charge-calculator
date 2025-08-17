@@ -94,32 +94,30 @@ export default function Home() {
 		<>
 			{/** ========================== CHECKBOXES =============================== */}
 			{/** JEST ROZLICZENIE CHECKBOX */}
-			<div className="form-group text-start">
-				<input
-					className="form-check-input"
-					type="checkbox"
-					checked={jestRozliczenie}
-					id="rozliczenie-checkbox"
-					// onChange={() => setJestRozliczenie(!jestRozliczenie)}
-					disabled={true}
-				/>{" "}
-				<label htmlFor="rozliczenie-checkbox">Rozliczenie</label>
-			</div>
+			<input
+				className="form-check-input"
+				type="checkbox"
+				checked={jestRozliczenie}
+				id="rozliczenie-checkbox"
+				// onChange={() => setJestRozliczenie(!jestRozliczenie)}
+				disabled={true}
+			/>{" "}
+			<label htmlFor="rozliczenie-checkbox" className="me-3">
+				Rozliczenie
+			</label>
 			{/** JEST RODZINA WIELODZIETNA CHECKBOX */}
-			<div className="form-group text-start">
-				<input
-					className="form-check-input"
-					type="checkbox"
-					checked={jestRodzinaWelodzietna}
-					id="rodzina-wielodzietna-checkbox"
-					onChange={() => setJestRodzinaWielodzietna(!jestRodzinaWelodzietna)}
-					disabled={Boolean(result)}
-				/>{" "}
-				<label htmlFor="rodzina-wielodzietna-checkbox">
-					Rodzina wielodzietna
-				</label>
-			</div>
-
+			<input
+				className="form-check-input"
+				type="checkbox"
+				checked={jestRodzinaWelodzietna}
+				id="rodzina-wielodzietna-checkbox"
+				onChange={() => setJestRodzinaWielodzietna(!jestRodzinaWelodzietna)}
+				disabled={Boolean(result)}
+			/>{" "}
+			<label htmlFor="rodzina-wielodzietna-checkbox">
+				Rodzina wielodzietna
+			</label>
+			<hr />
 			{result ? (
 				<>
 					<ResultTable
