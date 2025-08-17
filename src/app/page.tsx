@@ -1,36 +1,53 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import Form from "../components/Form";
-import { Result } from "@/types";
+import { ResultRozliczenie } from "@/types";
 import ResultTable from "../components/ResultTable";
 import { STAWKA } from "@/constants";
+import roundAndFixToTwoDecimals from "@/lib/roundAndFixToTwoDecimals";
+import { FormEvent, useState } from "react";
+import FormRozliczenie from "@/components/forms/FormRozliczenie";
+import FormLiczbaOsob from "@/components/forms/FormLiczbaOsob";
 
 export default function Home() {
-	const [result, setResult] = useState<Result>();
+	const [jestRozliczenie, setJestRozliczenie] = useState(true);
+	const [jestRodzinaWelodzietna, setJestRodzinaWielodzietna] = useState(false);
 
+	function resetCheckBoxes() {
+		setJestRozliczenie(true);
+		setJestRodzinaWielodzietna(false);
+	}
+	//===================================
+	const [result, setResult] = useState<ResultRozliczenie>();
+
+	function resetState() {
+		setResult(undefined);
+		resetCheckBoxes();
+	}
+	//===================================
 	function obliczZuzycieWody(zuzycie: number) {
 		if (typeof zuzycie !== "number" || isNaN(zuzycie)) {
 			throw new Error("Argument musi być liczbą");
 		}
 
-		function roundAndFixToTwoDecimals(num: number) {
-			/** helper function to round up from 5 in specific cases */
-			const factor = Math.pow(10, 2);
-			const rounded = (Math.round((num + Number.EPSILON) * factor) / factor).toFixed(2);
-			return Number(rounded)
-		}
+		const miesieczneZuzycie = roundAndFixToTwoDecimals(Number(zuzycie / 6));
+		const oplataZaSmieci = roundAndFixToTwoDecimals(
+			Number(miesieczneZuzycie * STAWKA)
+		);
 
-		const miesieczneZuzycie = roundAndFixToTwoDecimals(Number((zuzycie / 6)));
-		const oplataZaSmieci = roundAndFixToTwoDecimals(Number((miesieczneZuzycie * STAWKA)));
-		return {
+		const resultObject: ResultRozliczenie = {
 			zuzycie,
 			miesieczneZuzycie,
 			oplataZaSmieci,
 		};
+
+		console.log(resultObject);
+		return resultObject;
 	}
 
-	function onSubmit(e: FormEvent<HTMLFormElement>, inputValue: string) {
+	function onFormRozliczenieSubmit(
+		e: FormEvent<HTMLFormElement>,
+		inputValue: string
+	) {
 		e.preventDefault();
 
 		if (!inputValue) {
@@ -59,11 +76,71 @@ export default function Home() {
 		setResult(calculatedResult);
 	}
 
+	function onFormLiczbaOsobSubmit(
+		e: FormEvent<HTMLFormElement>,
+		liczbaOsob: number
+	) {
+		e.preventDefault();
+
+		if (liczbaOsob < 1) {
+			alert("Podaj liczbę!");
+			return;
+		}
+
+		// TODO
+	}
+
 	return (
 		<>
-			<Form onSubmit={onSubmit} />
+			{/** ========================== CHECKBOXES =============================== */}
+			{/** JEST ROZLICZENIE CHECKBOX */}
+			<div className="form-group text-start">
+				<input
+					className="form-check-input"
+					type="checkbox"
+					checked={jestRozliczenie}
+					id="rozliczenie-checkbox"
+					// onChange={() => setJestRozliczenie(!jestRozliczenie)}
+					disabled={true}
+				/>{" "}
+				<label htmlFor="rozliczenie-checkbox">Rozliczenie</label>
+			</div>
+			{/** JEST RODZINA WIELODZIETNA CHECKBOX */}
+			<div className="form-group text-start">
+				<input
+					className="form-check-input"
+					type="checkbox"
+					checked={jestRodzinaWelodzietna}
+					id="rodzina-wielodzietna-checkbox"
+					onChange={() => setJestRodzinaWielodzietna(!jestRodzinaWelodzietna)}
+					disabled={Boolean(result)}
+				/>{" "}
+				<label htmlFor="rodzina-wielodzietna-checkbox">
+					Rodzina wielodzietna
+				</label>
+			</div>
 
-			{result && <ResultTable result={result} />}
+			{result ? (
+				<>
+					<ResultTable
+						result={result}
+						jestRodzinaWielodzietna={jestRodzinaWelodzietna}
+					/>
+
+					<div className="d-grid gap-2">
+						<button
+							className="btn btn-primary mt-2 d-block"
+							onClick={() => resetState()}
+						>
+							Nowe rozliczenie
+						</button>
+					</div>
+				</>
+			) : jestRozliczenie ? (
+				<FormRozliczenie onSubmit={onFormRozliczenieSubmit} />
+			) : (
+				<FormLiczbaOsob onSubmit={onFormLiczbaOsobSubmit} />
+			)}
 		</>
 	);
 }

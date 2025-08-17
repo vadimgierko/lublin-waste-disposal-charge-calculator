@@ -1,7 +1,8 @@
 "use client";
 import { FormEvent, useState } from "react";
+import FormSubmitButton from "../FormSubmitButton";
 
-export default function Form({
+export default function FormRozliczenie({
 	onSubmit,
 }: {
 	onSubmit: (e: FormEvent<HTMLFormElement>, inputValue: string) => void;
@@ -32,11 +33,7 @@ export default function Form({
 				onChange={(e) => setInputValue(e.currentTarget.value.trim())}
 			/>
 
-			<div className="d-grid gap-2">
-				<button type="submit" className="btn btn-outline-primary mt-2 d-block">
-					Oblicz
-				</button>
-			</div>
+			<FormSubmitButton />
 		</form>
 	);
 }
