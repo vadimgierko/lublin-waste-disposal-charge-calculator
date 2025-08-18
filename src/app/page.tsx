@@ -7,8 +7,11 @@ import roundAndFixToTwoDecimals from "@/lib/roundAndFixToTwoDecimals";
 import { FormEvent, useState } from "react";
 import FormRozliczenie from "@/components/forms/FormRozliczenie";
 import FormLiczbaOsob from "@/components/forms/FormLiczbaOsob";
+import { useCounter } from "@/hooks/useCounter";
 
 export default function Home() {
+	const {incrementCounter} = useCounter();
+
 	const [jestRozliczenie, setJestRozliczenie] = useState(true);
 	const [jestRodzinaWelodzietna, setJestRodzinaWielodzietna] = useState(false);
 
@@ -44,7 +47,7 @@ export default function Home() {
 		return resultObject;
 	}
 
-	function onFormRozliczenieSubmit(
+	async function onFormRozliczenieSubmit(
 		e: FormEvent<HTMLFormElement>,
 		inputValue: string
 	) {
@@ -73,6 +76,7 @@ export default function Home() {
 		}
 
 		const calculatedResult = obliczZuzycieWody(liczba);
+		await incrementCounter();
 		setResult(calculatedResult);
 	}
 
