@@ -4,13 +4,17 @@ import { ResultRozliczenie } from "@/types";
 import ResultTable from "../components/ResultTable";
 import { STAWKA } from "@/constants";
 import roundAndFixToTwoDecimals from "@/lib/roundAndFixToTwoDecimals";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import FormRozliczenie from "@/components/forms/FormRozliczenie";
 import FormLiczbaOsob from "@/components/forms/FormLiczbaOsob";
 import { useCounter } from "@/hooks/useCounter";
+import { getAnalytics, logEvent } from "firebase/analytics";
+import { firebaseApp } from "@/firebaseConfig";
 
 export default function Home() {
-	const {incrementCounter} = useCounter();
+	const { incrementCounter } = useCounter();
+
+	const [isFormSubmited, setIsFormSubmited] = useState(false);
 
 	const [jestRozliczenie, setJestRozliczenie] = useState(true);
 	const [jestRodzinaWelodzietna, setJestRodzinaWielodzietna] = useState(false);
@@ -20,10 +24,17 @@ export default function Home() {
 		setJestRodzinaWielodzietna(false);
 	}
 	//===================================
-	const [result, setResult] = useState<ResultRozliczenie>();
+	const [resultRozliczenie, setResultRozliczenie] =
+		useState<ResultRozliczenie>();
+	const [resultLiczbaOsob, setResultLiczbaOsob] = useState<{
+		liczbaOsob: number;
+		total: number;
+	}>();
 
 	function resetState() {
-		setResult(undefined);
+		setResultRozliczenie(undefined);
+		setResultLiczbaOsob(undefined);
+		setIsFormSubmited(false);
 		resetCheckBoxes();
 	}
 	//===================================
@@ -77,10 +88,12 @@ export default function Home() {
 
 		const calculatedResult = obliczZuzycieWody(liczba);
 		await incrementCounter();
-		setResult(calculatedResult);
+
+		setResultRozliczenie(calculatedResult);
+		setIsFormSubmited(true);
 	}
 
-	function onFormLiczbaOsobSubmit(
+	async function onFormLiczbaOsobSubmit(
 		e: FormEvent<HTMLFormElement>,
 		liczbaOsob: number
 	) {
@@ -91,8 +104,20 @@ export default function Home() {
 			return;
 		}
 
-		// TODO
+		const result = {
+			liczbaOsob,
+			total: roundAndFixToTwoDecimals(liczbaOsob * 3 * 13.2),
+		};
+		await incrementCounter();
+
+		setResultLiczbaOsob(result);
+		setIsFormSubmited(true);
 	}
+
+	useEffect(() => {
+		const analytics = getAnalytics(firebaseApp);
+		logEvent(analytics, "notification_received");
+	}, []);
 
 	return (
 		<>
@@ -103,11 +128,11 @@ export default function Home() {
 				type="checkbox"
 				checked={jestRozliczenie}
 				id="rozliczenie-checkbox"
-				// onChange={() => setJestRozliczenie(!jestRozliczenie)}
-				disabled={true}
+				onChange={() => setJestRozliczenie(!jestRozliczenie)}
+				disabled={Boolean(isFormSubmited)}
 			/>{" "}
 			<label htmlFor="rozliczenie-checkbox" className="me-3">
-				Rozliczenie
+				Jest rozliczenie wody?
 			</label>
 			{/** JEST RODZINA WIELODZIETNA CHECKBOX */}
 			<input
@@ -116,17 +141,18 @@ export default function Home() {
 				checked={jestRodzinaWelodzietna}
 				id="rodzina-wielodzietna-checkbox"
 				onChange={() => setJestRodzinaWielodzietna(!jestRodzinaWelodzietna)}
-				disabled={Boolean(result)}
+				disabled={Boolean(isFormSubmited)}
 			/>{" "}
 			<label htmlFor="rodzina-wielodzietna-checkbox">
-				Rodzina wielodzietna
+				Rodzina wielodzietna?
 			</label>
 			<hr />
-			{result ? (
+			{isFormSubmited ? (
 				<>
 					<ResultTable
-						result={result}
+						resultRozliczenie={resultRozliczenie}
 						jestRodzinaWielodzietna={jestRodzinaWelodzietna}
+						resultLiczbaOsob={resultLiczbaOsob}
 					/>
 
 					<div className="d-grid gap-2">

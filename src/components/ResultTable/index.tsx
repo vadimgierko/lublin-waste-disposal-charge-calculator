@@ -2,30 +2,46 @@ import roundAndFixToTwoDecimals from "@/lib/roundAndFixToTwoDecimals";
 import { ResultRozliczenie } from "@/types";
 
 export default function ResultTable({
-	result,
+	resultRozliczenie,
+	resultLiczbaOsob,
 	jestRodzinaWielodzietna,
 }: {
-	result: ResultRozliczenie;
+	resultRozliczenie: ResultRozliczenie | undefined;
+	resultLiczbaOsob:
+		| {
+				liczbaOsob: number;
+				total: number;
+		  }
+		| undefined;
 	jestRodzinaWielodzietna: boolean;
 }) {
+	const miesiecznaWysokoscOplatypoz30 = resultRozliczenie
+		? resultRozliczenie.oplataZaSmieci
+		: resultLiczbaOsob
+		? resultLiczbaOsob.total
+		: undefined;
+
+	if (miesiecznaWysokoscOplatypoz30 === undefined) return;
+
 	const miesiecznaWysokoscZwolnieniaRodzinaWielodzietna =
 		jestRodzinaWielodzietna
-			? roundAndFixToTwoDecimals(result.oplataZaSmieci * 0.2)
+			? roundAndFixToTwoDecimals(miesiecznaWysokoscOplatypoz30 * 0.2)
 			: 0;
 
 	const pomniejszenie =
 		roundAndFixToTwoDecimals(
-			result.oplataZaSmieci - miesiecznaWysokoscZwolnieniaRodzinaWielodzietna
+			miesiecznaWysokoscOplatypoz30 -
+				miesiecznaWysokoscZwolnieniaRodzinaWielodzietna
 		) > 247.03
 			? roundAndFixToTwoDecimals(
-					result.oplataZaSmieci -
+					miesiecznaWysokoscOplatypoz30 -
 						miesiecznaWysokoscZwolnieniaRodzinaWielodzietna -
 						247.03
 			  )
 			: 0;
 
 	const ostatecznaStawka = roundAndFixToTwoDecimals(
-		result.oplataZaSmieci -
+		miesiecznaWysokoscOplatypoz30 -
 			miesiecznaWysokoscZwolnieniaRodzinaWielodzietna -
 			pomniejszenie
 	);
@@ -81,7 +97,9 @@ export default function ResultTable({
 								<small>27.</small>
 							</span>
 							<span className="text-danger">
-								<strong>{result.zuzycie}</strong>
+								<strong>
+									{resultRozliczenie ? resultRozliczenie.zuzycie : ""}
+								</strong>
 							</span>
 							<span>m³</span>
 						</td>
@@ -109,7 +127,9 @@ export default function ResultTable({
 								<small className="text-start">28.</small>
 							</span>
 							<span className="text-danger">
-								<strong>{result.miesieczneZuzycie}</strong>
+								<strong>
+									{resultRozliczenie ? resultRozliczenie.miesieczneZuzycie : ""}
+								</strong>
 							</span>
 							<span>m³</span>
 						</td>
@@ -119,7 +139,7 @@ export default function ResultTable({
 								<small>29.</small>
 							</span>
 							<span className="text-danger">
-								<strong>13,20</strong>
+								<strong>{resultRozliczenie ? "13,20" : ""}</strong>
 							</span>
 							<span>zł/m3</span>
 						</td>
@@ -129,7 +149,9 @@ export default function ResultTable({
 								<small>30.</small>
 							</span>
 							<span className="text-danger">
-								<strong>{result.oplataZaSmieci}</strong>
+								<strong>
+									{resultRozliczenie ? miesiecznaWysokoscOplatypoz30 : ""}
+								</strong>
 							</span>
 							<span>zł</span>
 						</td>
@@ -137,6 +159,81 @@ export default function ResultTable({
 				</tbody>
 			</table>
 			{/** 🚀 TODO 🚀 H.2. Z NIERUCHOMOŚCI LUB JEJ CZĘŚCI NIEKORZYSTAJĄCEJ Z SIECI WODOCIĄGOWEJ / NIEWYPOSAŻONEJ W WODOMIERZ / LUB DLA KTÓREJ BRAK JEST DANYCH DOTYCZĄCYCH ŚREDNIEGO MIESIĘCZNEGO ZUŻYCIA WODY */}
+			<table className="table table-striped table-bordered table-sm text-start">
+				<tbody>
+					<tr>
+						<td>
+							<strong>
+								H.2. Z NIERUCHOMOŚCI LUB JEJ CZĘŚCI NIEKORZYSTAJĄCEJ Z SIECI
+								WODOCIĄGOWEJ / NIEWYPOSAŻONEJ W WODOMIERZ / LUB DLA KTÓREJ BRAK
+								JEST DANYCH DOT. ŚREDNIEGO ZUŻYCIA WODY
+							</strong>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table className="table table-striped table-bordered table-sm text-start">
+				<tbody>
+					<tr className="text-center">
+						<td>
+							<strong>
+								Wyliczenie miesięcznej opłaty za gospodarowanie odpadami
+								komunalnymi
+							</strong>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table className="table table-striped table-bordered table-sm">
+				<thead>
+					<tr>
+						<td colSpan={2}>Liczba mieszkańców zamieszkujących nieruchomość</td>
+						<td colSpan={2}>Przeciętna norma zużycia wody</td>
+						<td colSpan={2}>
+							Stawka opłaty określona odrębną uchwałą Rady Miasta Lublin
+						</td>
+						<td>Miesięczna wysokość opłaty</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td className="d-flex justify-content-between">
+							<span>
+								<small className="text-start">31.</small>
+							</span>
+							<span className="text-danger">
+								<strong>
+									{resultLiczbaOsob ? resultLiczbaOsob.liczbaOsob : ""}
+								</strong>
+							</span>
+						</td>
+						<td>x</td>
+						<td>3m3/osobę</td>
+						<td>x</td>
+						<td className="d-flex justify-content-between">
+							<span>
+								<small>32.</small>
+							</span>
+							<span className="text-danger">
+								<strong>{resultLiczbaOsob ? "13,20" : ""}</strong>
+							</span>
+							<span>zł/m3</span>
+						</td>
+						<td>=</td>
+						<td className="d-flex justify-content-between">
+							<span>
+								<small>33.</small>
+							</span>
+							<span className="text-danger">
+								<strong>
+									{resultLiczbaOsob ? miesiecznaWysokoscOplatypoz30 : ""}
+								</strong>
+							</span>
+							<span>zł</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
 			<table className="table table-striped table-bordered table-sm text-start">
 				<tbody>
@@ -152,7 +249,7 @@ export default function ResultTable({
 								<small>34.</small>
 							</span>
 							<span className="text-danger">
-								<strong>{result.oplataZaSmieci}</strong>
+								<strong>{miesiecznaWysokoscOplatypoz30}</strong>
 							</span>
 							<span>zł</span>
 						</td>
@@ -205,7 +302,7 @@ export default function ResultTable({
 										<small className="text-start">36.</small>
 									</span>
 									<span className="text-danger">
-										<strong>{result.oplataZaSmieci}</strong>
+										<strong>{miesiecznaWysokoscOplatypoz30}</strong>
 									</span>
 									<span>zł</span>
 								</td>
