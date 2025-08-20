@@ -1,8 +1,20 @@
-import "./style.css";
+import { TableProps } from "@/types";
+import { SectionHeader } from "./SectionHeader";
+import { Wyliczenie } from "./Wyliczenie";
+import { FlexRow } from "./FlexRow";
+import { LabelField } from "./LabelField";
+import { InputField } from "./InputField";
+import { TableLikeVertical } from "./TableLikeVertical";
 
-import { ReactNode } from "react";
-
-export default function Div() {
+export default function Div({
+	resultRozliczenie,
+	resultLiczbaOsob,
+	jestRodzinaWielodzietna,
+	miesiecznaWysokoscOplatypoz30,
+	miesiecznaWysokoscZwolnieniaRodzinaWielodzietna,
+	pomniejszenie,
+	ostatecznaStawka,
+}: TableProps) {
 	return (
 		<div id="deklaracja" className="text-start" data-bs-theme="light">
 			{/* <!-- H. --> */}
@@ -30,7 +42,12 @@ export default function Div() {
 						value="Zużycie wody (w m3) za kolejne 6 miesięcy za okres od 1 stycznia do 30 czerwca oraz od 1 lipca do 31 grudnia. Sześciomiesięczny okres rozliczeniowy poprzedza bezpośrednio miesiąc poprzedzający miesiąc, w którym powstał obowiązek złożenia deklaracji."
 					/>
 
-					<InputField col={4} index={27} value={undefined} jednostka={"m3"} />
+					<InputField
+						col={4}
+						index={27}
+						value={resultRozliczenie?.zuzycie}
+						jednostka={"m3"}
+					/>
 				</FlexRow>
 
 				<TableLikeVertical>
@@ -47,16 +64,26 @@ export default function Div() {
 					</FlexRow>
 
 					<FlexRow>
-						<InputField col={3} index={28} value={undefined} jednostka={"m3"} />
-						<div className="col-1 grey"> x </div>
+						<InputField
+							col={3}
+							index={28}
+							value={resultRozliczenie?.miesieczneZuzycie}
+							jednostka={"m3"}
+						/>
+						<div className="col-1 grey text-center">x</div>
 						<InputField
 							col={3}
 							index={29}
-							value={undefined}
+							value={resultRozliczenie ? "13.20" : ""}
 							jednostka={"zł/m3"}
 						/>
-						<div className="col-1 grey"> = </div>
-						<InputField col={4} index={30} value={undefined} jednostka={"zł"} />
+						<div className="col-1 grey text-center">=</div>
+						<InputField
+							col={4}
+							index={30}
+							value={resultRozliczenie ? miesiecznaWysokoscOplatypoz30 : ""}
+							jednostka={"zł"}
+						/>
 					</FlexRow>
 				</TableLikeVertical>
 			</div>
@@ -89,22 +116,27 @@ export default function Div() {
 						<InputField
 							col={2}
 							index={31}
-							value={undefined}
+							value={resultLiczbaOsob?.liczbaOsob}
 							jednostka={undefined}
 						/>
-						<div className="col-1 grey"> x </div>
-						<div className="col-2 grey">
+						<div className="col-1 grey text-center">x</div>
+						<div className="col-2 grey text-center">
 							3m<sup>3</sup>/osobę
 						</div>
-						<div className="col-1 grey"> x </div>
+						<div className="col-1 grey  text-center">x</div>
 						<InputField
 							col={2}
 							index={32}
-							value={undefined}
+							value={resultLiczbaOsob ? "13.20" : ""}
 							jednostka={"zł/m3"}
 						/>
-						<div className="col-1 grey"> = </div>
-						<InputField col={3} index={33} value={undefined} jednostka={"zł"} />
+						<div className="col-1 grey  text-center">=</div>
+						<InputField
+							col={3}
+							index={33}
+							value={resultLiczbaOsob ? miesiecznaWysokoscOplatypoz30 : ""}
+							jednostka={"zł"}
+						/>
 					</FlexRow>
 				</TableLikeVertical>
 
@@ -115,7 +147,12 @@ export default function Div() {
 							value="H.3 Miesięczna wysokość opłaty za gospodarowanie odpadami komunalnymi – suma poz. 30 i 33."
 						/>
 					</strong>
-					<InputField col={4} index={34} value={undefined} jednostka={"zł"} />
+					<InputField
+						col={4}
+						index={34}
+						value={miesiecznaWysokoscOplatypoz30}
+						jednostka={"zł"}
+					/>
 				</FlexRow>
 			</div>
 
@@ -124,7 +161,9 @@ export default function Div() {
 				<SectionHeader
 					title="I. OBLICZENIE MIESIĘCZNEJ WYSOKOŚCI ZWOLNIENIA DLA RODZIN POSIADAJĄCYCH STATUS RODZINY WIELODZIETNEJ,
                     O KTÓRYCH MOWA W USTAWIE Z DNIA 5 GRUDNIA 2014 R. O KARCIE DUŻEJ RODZINY"
-					description={`35. ✅ Oświadczam, że na nieruchomości/nieruchomościach zamieszkuje/zamieszkują rodziny posiadające
+					description={`35. ${
+						jestRodzinaWielodzietna ? "✅" : "☐"
+					} Oświadczam, że na nieruchomości/nieruchomościach zamieszkuje/zamieszkują rodziny posiadające
                     status rodziny wielodzietnej, o których mowa w ustawie z dnia 5 grudnia 2014 r. o Karcie Dużej Rodziny.`}
 				/>
 
@@ -139,11 +178,29 @@ export default function Div() {
 					</FlexRow>
 
 					<FlexRow>
-						<InputField col={5} index={36} value={undefined} jednostka={"zł"} />
-						<div className="col-1 grey"> x </div>
-						<div className="col-2 grey">20%</div>
-						<div className="col-1 grey"> = </div>
-						<InputField col={3} index={37} value={undefined} jednostka={"zł"} />
+						<InputField
+							col={5}
+							index={36}
+							value={
+								miesiecznaWysokoscZwolnieniaRodzinaWielodzietna > 0
+									? miesiecznaWysokoscOplatypoz30
+									: ""
+							}
+							jednostka={"zł"}
+						/>
+						<div className="col-1 grey  text-center">x</div>
+						<div className="col-2 grey  text-center">20%</div>
+						<div className="col-1 grey  text-center">=</div>
+						<InputField
+							col={3}
+							index={37}
+							value={
+								miesiecznaWysokoscZwolnieniaRodzinaWielodzietna > 0
+									? miesiecznaWysokoscZwolnieniaRodzinaWielodzietna
+									: ""
+							}
+							jednostka={"zł"}
+						/>
 					</FlexRow>
 				</TableLikeVertical>
 			</div>
@@ -161,7 +218,12 @@ export default function Div() {
 						value="Kwota pomniejszenia na podstawie art. 6j ust. 3f (różnica pomiędzy opłatą miesięczną przypadającą na gospodarstwo
                     domowe a opłatą maksymalną za gospodarstwo domowe)."
 					/>
-					<InputField col={4} index={38} value={undefined} jednostka={"zł"} />
+					<InputField
+						col={4}
+						index={38}
+						value={pomniejszenie > 0 ? pomniejszenie : ""}
+						jednostka={"zł"}
+					/>
 				</FlexRow>
 			</div>
 
@@ -177,89 +239,14 @@ export default function Div() {
 						col={8}
 						value="Miesięczna wysokość opłaty z poz. 39 pomniejszona o kwotę z poz. 37 i/lub 38 płatna jest z dołu, bez wezwania, w terminach miesięcznych do 15. dnia każdego następnego miesiąca na rachunek Urzędu Miasta Lublin "
 					/>
-					<InputField col={4} index={39} value={undefined} jednostka={"zł"} />
+					<InputField
+						col={4}
+						index={39}
+						value={ostatecznaStawka}
+						jednostka={"zł"}
+					/>
 				</FlexRow>
 			</div>
-		</div>
-	);
-}
-
-function SectionHeader({
-	title,
-	description,
-	subsection = false,
-}: {
-	title: string;
-	description: string;
-	subsection?: boolean;
-}) {
-	return (
-		<div className="section-header grey">
-			<p className="title">
-				<strong>{title}</strong>
-			</p>
-			<p>{description}</p>
-		</div>
-	);
-}
-
-function FlexRow({ children }: { children: ReactNode }) {
-	return <div className="d-flex">{children}</div>;
-}
-
-type LabelFieldProps = {
-	col: number;
-	value: string;
-};
-function LabelField({ col, value }: LabelFieldProps) {
-	return (
-		<div className={`label-field col-${col} grey text-center`}>{value}</div>
-	);
-}
-
-type InputFieldProps = {
-	col: number;
-	index: number;
-	value: string | number | undefined;
-	jednostka: "m3" | "zł" | "zł/m3" | undefined;
-};
-function InputField({ col, index, value, jednostka }: InputFieldProps) {
-	return (
-		<div
-			className={`input-field col-${col} d-flex justify-content-between align-items-center`}
-		>
-			<span className="index">{index}.</span>
-			<span>{value}</span>
-			<span className="jednostka">
-				{jednostka === "m3" ? (
-					<span>
-						m<sup>3</sup>
-					</span>
-				) : jednostka === "zł" ? (
-					"zł"
-				) : jednostka === "zł/m3" ? (
-					<span>
-						zł/m<sup>3</sup>
-					</span>
-				) : (
-					""
-				)}
-			</span>
-		</div>
-	);
-}
-
-type TableLikeVarticalProps = { children: ReactNode };
-function TableLikeVertical({ children }: TableLikeVarticalProps) {
-	return <div className="table-like-vertical">{children}</div>;
-}
-
-function Wyliczenie() {
-	return (
-		<div className="text-center grey">
-			<strong>
-				Wyliczenie miesięcznej opłaty za gospodarowanie odpadami komunalnymi
-			</strong>
 		</div>
 	);
 }

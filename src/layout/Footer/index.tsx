@@ -11,7 +11,7 @@ export default function Footer() {
 				</a>
 			</span>
 			{/** UNCOMMENT WHEN STATISTICS WILL BE SUBSTANTIAL ;-) */}
-			{/* <Counter /> */}
+			<Counter />
 			<ModeToggle />
 		</footer>
 	);

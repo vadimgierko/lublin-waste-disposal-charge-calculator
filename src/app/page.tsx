@@ -19,6 +19,8 @@ export default function Home() {
 	const [jestRozliczenie, setJestRozliczenie] = useState(true);
 	const [jestRodzinaWelodzietna, setJestRodzinaWielodzietna] = useState(false);
 
+	const [pokazCalaDeklaracje, setPokazCalaDeklaracje] = useState(false);
+
 	function resetCheckBoxes() {
 		setJestRozliczenie(true);
 		setJestRodzinaWielodzietna(false);
@@ -87,6 +89,7 @@ export default function Home() {
 		}
 
 		const calculatedResult = obliczZuzycieWody(liczba);
+
 		await incrementCounter();
 
 		setResultRozliczenie(calculatedResult);
@@ -108,6 +111,7 @@ export default function Home() {
 			liczbaOsob,
 			total: roundAndFixToTwoDecimals(liczbaOsob * 3 * 13.2),
 		};
+
 		await incrementCounter();
 
 		setResultLiczbaOsob(result);
@@ -143,9 +147,26 @@ export default function Home() {
 				onChange={() => setJestRodzinaWielodzietna(!jestRodzinaWelodzietna)}
 				disabled={Boolean(isFormSubmited)}
 			/>{" "}
-			<label htmlFor="rodzina-wielodzietna-checkbox">
+			<label htmlFor="rodzina-wielodzietna-checkbox" className="me-3">
 				Rodzina wielodzietna?
 			</label>
+			{/** POKAŻ CAŁĄ DEKLARACJĘ */}
+			{isFormSubmited && (
+				<>
+					<input
+						className="form-check-input"
+						type="checkbox"
+						checked={pokazCalaDeklaracje}
+						id="pokaz-cala-deklaracje"
+						onChange={() => setPokazCalaDeklaracje(!pokazCalaDeklaracje)}
+						disabled={false}
+					/>{" "}
+					<label htmlFor="pokaz-cala-deklaracje">
+						Pokaż całą deklarację{" "}
+						<span className="text-success">(NOWOŚĆ!)</span>
+					</label>
+				</>
+			)}
 			<hr />
 			{isFormSubmited ? (
 				<>
@@ -153,6 +174,7 @@ export default function Home() {
 						resultRozliczenie={resultRozliczenie}
 						jestRodzinaWielodzietna={jestRodzinaWelodzietna}
 						resultLiczbaOsob={resultLiczbaOsob}
+						pokazCalaDeklaracje={pokazCalaDeklaracje}
 					/>
 
 					<div className="d-grid gap-2">
