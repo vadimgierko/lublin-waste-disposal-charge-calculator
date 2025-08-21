@@ -1,13 +1,11 @@
 import roundAndFixToTwoDecimals from "@/lib/roundAndFixToTwoDecimals";
 import { ResultRozliczenie, TableProps } from "@/types";
-import { Table } from "./Table";
 import Div from "./Div";
 
 export default function ResultTable({
 	resultRozliczenie,
 	resultLiczbaOsob,
 	jestRodzinaWielodzietna,
-	pokazCalaDeklaracje,
 }: {
 	resultRozliczenie: ResultRozliczenie | undefined;
 	resultLiczbaOsob:
@@ -17,7 +15,6 @@ export default function ResultTable({
 		  }
 		| undefined;
 	jestRodzinaWielodzietna: boolean;
-	pokazCalaDeklaracje: boolean;
 }) {
 	const miesiecznaWysokoscOplatypoz30 = resultRozliczenie
 		? resultRozliczenie.oplataZaSmieci
@@ -60,7 +57,5 @@ export default function ResultTable({
 		ostatecznaStawka,
 	};
 
-	if (pokazCalaDeklaracje) return <Div {...tableProps} />;
-
-	return <Table {...tableProps} />;
+	return <Div {...tableProps} />;
 }

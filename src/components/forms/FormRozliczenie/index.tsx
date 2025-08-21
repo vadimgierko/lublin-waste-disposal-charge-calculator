@@ -19,7 +19,7 @@ export default function FormRozliczenie({
 				setInputValue("");
 			}}
 		>
-			<div className="input-group">
+			<div className="input-group shadow">
 				<div className="input-group-text">
 					Wpisz zużycie wody (w m3) za kolejne 6 miesięcy
 				</div>

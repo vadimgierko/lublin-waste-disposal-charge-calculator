@@ -26,7 +26,7 @@ export default function FormLiczbaOsob({
 			<input
 				id="liczbaOsobInput"
 				value={liczbaOsob}
-				className="form-control"
+				className="form-control shadow"
 				type="number"
 				placeholder="1"
 				step={1}

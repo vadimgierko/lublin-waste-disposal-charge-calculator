@@ -19,8 +19,6 @@ export default function Home() {
 	const [jestRozliczenie, setJestRozliczenie] = useState(true);
 	const [jestRodzinaWelodzietna, setJestRodzinaWielodzietna] = useState(false);
 
-	const [pokazCalaDeklaracje, setPokazCalaDeklaracje] = useState(false);
-
 	function resetCheckBoxes() {
 		setJestRozliczenie(true);
 		setJestRodzinaWielodzietna(false);
@@ -128,7 +126,7 @@ export default function Home() {
 			{/** ========================== CHECKBOXES =============================== */}
 			{/** JEST ROZLICZENIE CHECKBOX */}
 			<input
-				className="form-check-input"
+				className="form-check-input shadow"
 				type="checkbox"
 				checked={jestRozliczenie}
 				id="rozliczenie-checkbox"
@@ -140,7 +138,7 @@ export default function Home() {
 			</label>
 			{/** JEST RODZINA WIELODZIETNA CHECKBOX */}
 			<input
-				className="form-check-input"
+				className="form-check-input shadow"
 				type="checkbox"
 				checked={jestRodzinaWelodzietna}
 				id="rodzina-wielodzietna-checkbox"
@@ -150,23 +148,6 @@ export default function Home() {
 			<label htmlFor="rodzina-wielodzietna-checkbox" className="me-3">
 				Rodzina wielodzietna?
 			</label>
-			{/** POKAŻ CAŁĄ DEKLARACJĘ */}
-			{isFormSubmited && (
-				<>
-					<input
-						className="form-check-input"
-						type="checkbox"
-						checked={pokazCalaDeklaracje}
-						id="pokaz-cala-deklaracje"
-						onChange={() => setPokazCalaDeklaracje(!pokazCalaDeklaracje)}
-						disabled={false}
-					/>{" "}
-					<label htmlFor="pokaz-cala-deklaracje">
-						Pokaż całą deklarację{" "}
-						<span className="text-success">(NOWOŚĆ!)</span>
-					</label>
-				</>
-			)}
 			<hr />
 			{isFormSubmited ? (
 				<>
@@ -174,12 +155,11 @@ export default function Home() {
 						resultRozliczenie={resultRozliczenie}
 						jestRodzinaWielodzietna={jestRodzinaWelodzietna}
 						resultLiczbaOsob={resultLiczbaOsob}
-						pokazCalaDeklaracje={pokazCalaDeklaracje}
 					/>
 
 					<div className="d-grid gap-2">
 						<button
-							className="btn btn-primary mt-2 d-block"
+							className="btn btn-primary mt-2 d-block shadow"
 							onClick={() => resetState()}
 						>
 							Nowe rozliczenie
