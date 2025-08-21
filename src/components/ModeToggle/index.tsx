@@ -35,11 +35,6 @@ export default function ModeToggle() {
 			}
 		>
 			{theme === "light" ? (
-				"zmień tryb na ciemny"
-			) : (
-				"zmień tryb na jasny"
-			)}{" "}
-			{theme === "light" ? (
 				<i className="bi bi-moon-fill"></i>
 			) : (
 				<i className="bi bi-brightness-high-fill"></i>

@@ -17,7 +17,7 @@ export default function RootLayout({
 	children: ReactNode;
 }>) {
 	return (
-		<html lang="pl" data-bs-theme="light">
+		<html lang="pl" data-bs-theme="light" data-scroll-behavior="smooth">
 			<body className="text-center d-flex flex-column">
 				<Layout>{children}</Layout>
 			</body>

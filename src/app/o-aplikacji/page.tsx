@@ -7,10 +7,11 @@ import remarkGfm from "remark-gfm";
 export default function About() {
 	const filePath = path.join(
 		process.cwd(),
-		"src",
-		"app",
-		"o-aplikacji",
-		"content.md"
+		"README.md"
+		// "src",
+		// "app",
+		// "o-aplikacji",
+		// "content.md"
 	);
 	const fileContents = fs.readFileSync(filePath, "utf-8");
 
