@@ -1,5 +1,6 @@
 import ModeToggle from "@/components/ModeToggle";
 import Counter from "./Couter";
+import Link from "next/link";
 
 export default function Footer() {
 	return (
@@ -10,8 +11,11 @@ export default function Footer() {
 					Vadim Gierko
 				</a>
 			</span>
+
+			{/* <Link href="/newsletter">zapisz się do newslettera</Link> */}
+
 			{/** UNCOMMENT WHEN STATISTICS WILL BE SUBSTANTIAL ;-) */}
-			<Counter />
+			{/* <Counter /> */}
 			<ModeToggle />
 		</footer>
 	);
