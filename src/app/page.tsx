@@ -1,8 +1,8 @@
 "use client";
 
-import { ResultRozliczenie } from "@/types";
-import ResultTable from "../components/ResultTable";
-import { STAWKA } from "@/constants";
+import { ResultLiczbaOsob, ResultRozliczenie } from "@/types";
+import { Declaration } from "../components/Declaration";
+import { STAWKA_2025 } from "@/constants";
 import roundAndFixToTwoDecimals from "@/lib/roundAndFixToTwoDecimals";
 import { FormEvent, useEffect, useState } from "react";
 import FormRozliczenie from "@/components/forms/FormRozliczenie";
@@ -26,10 +26,7 @@ export default function Home() {
 	//===================================
 	const [resultRozliczenie, setResultRozliczenie] =
 		useState<ResultRozliczenie>();
-	const [resultLiczbaOsob, setResultLiczbaOsob] = useState<{
-		liczbaOsob: number;
-		total: number;
-	}>();
+	const [resultLiczbaOsob, setResultLiczbaOsob] = useState<ResultLiczbaOsob>();
 
 	function resetState() {
 		setResultRozliczenie(undefined);
@@ -45,7 +42,7 @@ export default function Home() {
 
 		const miesieczneZuzycie = roundAndFixToTwoDecimals(Number(zuzycie / 6));
 		const oplataZaSmieci = roundAndFixToTwoDecimals(
-			Number(miesieczneZuzycie * STAWKA)
+			Number(miesieczneZuzycie * STAWKA_2025)
 		);
 
 		const resultObject: ResultRozliczenie = {
@@ -88,6 +85,7 @@ export default function Home() {
 
 		const calculatedResult = obliczZuzycieWody(liczba);
 
+		//============== ❗❗❗ COMMENT IN DEV ================❗❗❗
 		await incrementCounter();
 
 		setResultRozliczenie(calculatedResult);
@@ -105,11 +103,12 @@ export default function Home() {
 			return;
 		}
 
-		const result = {
+		const result: ResultLiczbaOsob = {
 			liczbaOsob,
 			total: roundAndFixToTwoDecimals(liczbaOsob * 3 * 13.2),
 		};
 
+		//============== ❗❗❗ COMMENT IN DEV ================❗❗❗
 		await incrementCounter();
 
 		setResultLiczbaOsob(result);
@@ -117,6 +116,7 @@ export default function Home() {
 	}
 
 	useEffect(() => {
+		//============== ❗❗❗ COMMENT IN DEV ================❗❗❗
 		const analytics = getAnalytics(firebaseApp);
 		logEvent(analytics, "notification_received");
 	}, []);
@@ -151,7 +151,7 @@ export default function Home() {
 			<hr />
 			{isFormSubmited ? (
 				<>
-					<ResultTable
+					<Declaration
 						resultRozliczenie={resultRozliczenie}
 						jestRodzinaWielodzietna={jestRodzinaWelodzietna}
 						resultLiczbaOsob={resultLiczbaOsob}
