@@ -1,15 +1,14 @@
 "use client";
 
-import { ResultLiczbaOsob, ResultRozliczenie } from "@/types";
+import { DeclarationData } from "@/types";
 import { Declaration } from "../components/Declaration";
-import { STAWKA_2025 } from "@/constants";
-import roundAndFixToTwoDecimals from "@/lib/roundAndFixToTwoDecimals";
 import { FormEvent, useEffect, useState } from "react";
 import FormRozliczenie from "@/components/forms/FormRozliczenie";
 import FormLiczbaOsob from "@/components/forms/FormLiczbaOsob";
 import { useCounter } from "@/hooks/useCounter";
 import { getAnalytics, logEvent } from "firebase/analytics";
 import { firebaseApp } from "@/firebaseConfig";
+import { calculateDeclaration } from "@/lib/calculateDeclaration";
 
 export default function Home() {
 	const { incrementCounter } = useCounter();
@@ -17,42 +16,19 @@ export default function Home() {
 	const [isFormSubmited, setIsFormSubmited] = useState(false);
 
 	const [jestRozliczenie, setJestRozliczenie] = useState(true);
-	const [jestRodzinaWelodzietna, setJestRodzinaWielodzietna] = useState(false);
+	const [jestRodzinaWielodzietna, setJestRodzinaWielodzietna] = useState(false);
 
 	function resetCheckBoxes() {
 		setJestRozliczenie(true);
 		setJestRodzinaWielodzietna(false);
 	}
 	//===================================
-	const [resultRozliczenie, setResultRozliczenie] =
-		useState<ResultRozliczenie>();
-	const [resultLiczbaOsob, setResultLiczbaOsob] = useState<ResultLiczbaOsob>();
+	const [declaration, setDeclaration] = useState<DeclarationData>();
 
 	function resetState() {
-		setResultRozliczenie(undefined);
-		setResultLiczbaOsob(undefined);
+		setDeclaration(undefined);
 		setIsFormSubmited(false);
 		resetCheckBoxes();
-	}
-	//===================================
-	function obliczZuzycieWody(zuzycie: number) {
-		if (typeof zuzycie !== "number" || isNaN(zuzycie)) {
-			throw new Error("Argument musi być liczbą");
-		}
-
-		const miesieczneZuzycie = roundAndFixToTwoDecimals(Number(zuzycie / 6));
-		const oplataZaSmieci = roundAndFixToTwoDecimals(
-			Number(miesieczneZuzycie * STAWKA_2025)
-		);
-
-		const resultObject: ResultRozliczenie = {
-			zuzycie,
-			miesieczneZuzycie,
-			oplataZaSmieci,
-		};
-
-		console.log(resultObject);
-		return resultObject;
 	}
 
 	async function onFormRozliczenieSubmit(
@@ -83,12 +59,15 @@ export default function Home() {
 			return;
 		}
 
-		const calculatedResult = obliczZuzycieWody(liczba);
+		const d = calculateDeclaration({
+			zuzycie: liczba,
+			jestRodzinaWielodzietna,
+		});
 
 		//============== ❗❗❗ COMMENT IN DEV ================❗❗❗
 		await incrementCounter();
 
-		setResultRozliczenie(calculatedResult);
+		setDeclaration(d);
 		setIsFormSubmited(true);
 	}
 
@@ -103,15 +82,11 @@ export default function Home() {
 			return;
 		}
 
-		const result: ResultLiczbaOsob = {
-			liczbaOsob,
-			total: roundAndFixToTwoDecimals(liczbaOsob * 3 * 13.2),
-		};
-
+		const d = calculateDeclaration({ liczbaOsob, jestRodzinaWielodzietna });
 		//============== ❗❗❗ COMMENT IN DEV ================❗❗❗
 		await incrementCounter();
 
-		setResultLiczbaOsob(result);
+		setDeclaration(d);
 		setIsFormSubmited(true);
 	}
 
@@ -140,22 +115,18 @@ export default function Home() {
 			<input
 				className="form-check-input shadow"
 				type="checkbox"
-				checked={jestRodzinaWelodzietna}
+				checked={jestRodzinaWielodzietna}
 				id="rodzina-wielodzietna-checkbox"
-				onChange={() => setJestRodzinaWielodzietna(!jestRodzinaWelodzietna)}
+				onChange={() => setJestRodzinaWielodzietna(!jestRodzinaWielodzietna)}
 				disabled={Boolean(isFormSubmited)}
 			/>{" "}
 			<label htmlFor="rodzina-wielodzietna-checkbox" className="me-3">
 				Rodzina wielodzietna?
 			</label>
 			<hr />
-			{isFormSubmited ? (
+			{isFormSubmited && declaration ? (
 				<>
-					<Declaration
-						resultRozliczenie={resultRozliczenie}
-						jestRodzinaWielodzietna={jestRodzinaWelodzietna}
-						resultLiczbaOsob={resultLiczbaOsob}
-					/>
+					<Declaration declaration={declaration} />
 
 					<div className="d-grid gap-2">
 						<button
