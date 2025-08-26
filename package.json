@@ -27,7 +27,9 @@
 		"@types/react-dom": "^19",
 		"eslint": "^9",
 		"eslint-config-next": "15.4.6",
+		"jsdom": "^26.1.0",
 		"typescript": "^5",
+		"vite-tsconfig-paths": "^5.1.4",
 		"vitest": "^3.2.4"
 	}
 }
