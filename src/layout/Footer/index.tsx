@@ -16,8 +16,6 @@ export default function Footer() {
 				<Link href="/o-aplikacji">o aplikacji</Link>
 			</span>
 
-			{/* <Link href="/newsletter">zapisz się do newslettera</Link> */}
-
 			{/** UNCOMMENT WHEN STATISTICS WILL BE SUBSTANTIAL ;-) */}
 			{/* <Counter /> */}
 		</footer>
