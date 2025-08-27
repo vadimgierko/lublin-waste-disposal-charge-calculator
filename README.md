@@ -14,27 +14,9 @@ Podstawą prawną działania kalkulatora jest <a href="https://bip.lublin.eu/rad
 
 ---
 
-## 2. Zastrzeżenie
+## 2. Widoki
 
-### 2.1. Korzystanie z aplikacji
-
-Aplikacja **nie jest oficjalną urzędową aplikacją, tylko oddolną inicjatywą Autora**, a korzystanie z niej jest **dobrowolne**.
-
-### 2.2. Odpowiedzialność i prawdopodobieństwo wystąpienia błędów; zaimplementowane testy automatyczne
-
-Autor dołożył wszelkich starań, aby zapewnić poprawność obliczeń i interfejsu użytkownika, w tym zaimplementował **testy automatyczne** odpowiadające wzorom udostępnionym przez Wydział Ochrony Środowiska UM, a także sprawdzające poprawność zaokrągleń, aczkolwiek **nie ponosi odpowiedzialności za nieprzewidziane ewentualne błędy**.
-
-Niemniej jednak, Autor zobowiązuje się do niezwłocznego naprawienia wszelkich błędów zgłoszonych na pracowniczego maila Autora przez użytkowników aplikacji.
-
-Zaleca się **sporadyczne manualne sprawdzanie wyników** i zgłaszanie wszelkich nieprawidłowości Autorowi.
-
-Autor zachęca również użytkowników aplikacji do **zgłaszania pomysłów lub zapotrzebowania na zmiany** w aplikacji, a także **feedback**u i konstruktywnej krytyki.
-
----
-
-## 3. Widoki
-
-### 3.1. Widok formularza
+### 2.1. Widok formularza
 
 <img
   src="https://kalkulator-stawki-za-odpady-lublin.vercel.app/img/zrzut-widoku-formularza-rozliczenie.jpg"
@@ -61,7 +43,7 @@ Po uruchomieniu aplikacji użytkownik widzi formularz zawierający:
   - do wpisania liczby mieszkańców (*jeśli odznaczono checkbox rozliczenia wody*),  
 - **przycisk „Oblicz”**, który przekierowuje do widoku automatycznie wypełnionej deklaracji.
 
-### 3.2. Widok deklaracji
+### 2.2. Widok deklaracji
 
 <img
   src="https://kalkulator-stawki-za-odpady-lublin.vercel.app/img/zrzut-widoku-deklaracji.jpg"
@@ -85,21 +67,21 @@ Po kliknięciu „Oblicz” użytkownik przechodzi do widoku deklaracji, w któr
 
 ---
 
-## 4. Funkcjonalności
+## 3. Funkcjonalności
 
-### 4.1. Automatyczne zaokrąglenia
+### 3.1. Automatyczne zaokrąglenia
 
 Kalkulator stosuje automatyczne zaokrąglenia zgodnie z wytycznymi Kierownika Referatu ds. deklaracji o wysokości opłaty za odpady komunalne (mail z dnia 05.08.2025 r.):
 
 *W poz. 27 deklaracji wpisujemy dokładnie  m³, które podane są w powiadomieniu o rozliczeniu wody (nawet jeśli jest więcej niż 2 miejsca po przecinku). W pozostałych rubrykach z dokładnością do 2 miejsc po przecinku, zaokrąglamy zgodnie z zasadami ogólnymi tj. jeśli trzecia cyfra to 0, 1, 2, 3 lub 4, zaokrąglamy w dół (poprzednią cyfrę pozostawiamy bez zmian). Jeśli ta cyfra to 5, 6, 7, 8 lub 9, zaokrąglamy w górę (poprzednią cyfrę zwiększamy o 1).*
 
-### 4.2. Automatyczne obliczenia - wystarczy przepisać do deklaracji w formie papierowej
+### 3.2. Automatyczne obliczenia - wystarczy przepisać do deklaracji w formie papierowej
 
 Aplikacja automatycznie wylicza i uzupełnia wszystkie niezbędne pozycje w deklaracji (w przypadku rozliczenia na podstawie zużycia wody lub ryczałtu), w tym także:
 - zniżkę dla rodzin wielodzietnych,
 - przekroczenie limitu 7,8% przeciętnego miesięcznego dochodu rozporządzanego na 1 osobę ogółem za gospodarstwo domowe (stanem na 2025 r. wynosi on 247.03 zł).
 
-### 4.3. Wbudowana weryfikacja wartości wpisanych w polach formularza
+### 3.3. Wbudowana weryfikacja wartości wpisanych w polach formularza
 
 Pola formularza posiadają wbudowaną weryfikację wartości wpisanych w polach formularza, w związku z czym:
 - ignorują ("ucinają") spacje przed i po wpisanej wartości,
@@ -108,11 +90,11 @@ Pola formularza posiadają wbudowaną weryfikację wartości wpisanych w polach 
   - wpisania innych symboli, niż liczby, kropka i przecinek,
   - pozostawienia pola formularza dot. wartości rozliczenia pustym.
 
-### 4.4. Jasny i ciemny motyw (Dark/light Mode)
+### 3.4. Jasny i ciemny motyw (Dark/light Mode)
 
 W górnym prawym rogu strony znajduje się ikonka słońca/księżyca, po kliknięciu w którą aplikacja jest wyświetlana odpowiednio w jasnym lub ciemnym motywie. Ponadto to ustawienie jest zapisywane w przeglądarce i zostanie nadpisane dopiero po zmianie motywu.
 
-## 5. Technologie użyte do napisania aplikacji
+## 4. Technologie użyte do napisania aplikacji
 
 Niniejsza aplikacja została napisana "od podszewki" w technologiach i językach programowania wymienionych w poniższej tabeli:
 
@@ -144,3 +126,21 @@ Niniejsza aplikacja została napisana "od podszewki" w technologiach i językach
     </tr>
   </tbody>
 </table>
+
+---
+
+## 5. Zastrzeżenie
+
+### 5.1. Korzystanie z aplikacji
+
+Aplikacja **nie jest oficjalną urzędową aplikacją, tylko oddolną inicjatywą Autora**, a korzystanie z niej jest **dobrowolne**.
+
+### 5.2. Odpowiedzialność i prawdopodobieństwo wystąpienia błędów; zaimplementowane testy automatyczne
+
+Autor dołożył wszelkich starań, aby zapewnić poprawność obliczeń i interfejsu użytkownika, w tym zaimplementował **testy automatyczne** odpowiadające wzorom udostępnionym przez Wydział Ochrony Środowiska UM, a także sprawdzające poprawność zaokrągleń, aczkolwiek **nie ponosi odpowiedzialności za nieprzewidziane ewentualne błędy**.
+
+Niemniej jednak, Autor zobowiązuje się do niezwłocznego naprawienia wszelkich błędów zgłoszonych na pracowniczego maila Autora przez użytkowników aplikacji.
+
+Zaleca się **sporadyczne manualne sprawdzanie wyników** i zgłaszanie wszelkich nieprawidłowości Autorowi.
+
+Autor zachęca również użytkowników aplikacji do **zgłaszania pomysłów lub zapotrzebowania na zmiany** w aplikacji, a także **feedback**u i konstruktywnej krytyki.
