@@ -1,23 +1,29 @@
+import { Col, Row } from "react-bootstrap";
 import Counter from "./Counter";
 import Link from "next/link";
 
 export default function Footer() {
 	return (
-		<footer className="d-flex justify-content-between align-items-center mb-3">
-			<span>
+		<footer>
+			<Row>
+				<Col md={4}>
 				&copy; 2025{" "}
 				<a href="https://vadimgierko.com" target="_blank">
 					Vadim Gierko
+				</a> | <a href="https://github.com/vadimgierko/lublin-waste-disposal-charge-calculator" target="_blank">
+					[zajrzyj do kodu]
 				</a>
-			</span>
+			</Col>
 
-			<span>
+			<Col md={4}>
+				<Counter />
+			</Col>
+
+			<Col md={4}>
 				<Link href="/">kalkulator</Link> |{" "}
 				<Link href="/o-aplikacji">o aplikacji</Link>
-			</span>
-
-			{/** UNCOMMENT WHEN STATISTICS WILL BE SUBSTANTIAL ;-) */}
-			{/* <Counter /> */}
+			</Col>
+			</Row>
 		</footer>
 	);
 }

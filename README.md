@@ -94,7 +94,9 @@ Pola formularza posiadają wbudowaną weryfikację wartości wpisanych w polach 
 
 W górnym prawym rogu strony znajduje się ikonka słońca/księżyca, po kliknięciu w którą aplikacja jest wyświetlana odpowiednio w jasnym lub ciemnym motywie. Ponadto to ustawienie jest zapisywane w przeglądarce i zostanie nadpisane dopiero po zmianie motywu.
 
-## 4. Technologie użyte do napisania aplikacji
+## 4. Szczegóły techniczne
+
+### 4.1. Technologie użyte do napisania aplikacji
 
 Niniejsza aplikacja została napisana "od podszewki" w technologiach i językach programowania wymienionych w poniższej tabeli:
 
@@ -126,6 +128,10 @@ Niniejsza aplikacja została napisana "od podszewki" w technologiach i językach
     </tr>
   </tbody>
 </table>
+
+### 4.2. Link do repozytorium kodu
+
+Aplikacja jest **aplikacją *open source*** - wgląd do repozytorium kodu aplikacji jest możliwy <a href="https://github.com/vadimgierko/lublin-waste-disposal-charge-calculator" target="_blank">pod tym linkiem</a>.
 
 ---
 
