@@ -1,11 +1,12 @@
 import { DeclarationData, DeclarationInput } from "@/types";
 import roundAndFixToTwoDecimals from "./roundAndFixToTwoDecimals";
-import { MAKSYMALNA_OPLATA_2025, STAWKA_2025 } from "@/constants";
+import { MAKSYMALNA_OPLATA_2025, MAKSYMALNA_OPLATA_2026, STAWKA_2025 } from "@/constants";
 
 export function calculateDeclaration({
 	zuzycie,
 	liczbaOsob,
 	jestRodzinaWielodzietna,
+	od_04_2026
 }: DeclarationInput): DeclarationData | undefined {
 	const data: DeclarationData = {
 		H1: undefined,
@@ -52,9 +53,15 @@ export function calculateDeclaration({
 	}
 
 	// if J => J, K
-	if (data["K"] > MAKSYMALNA_OPLATA_2025) {
-		data["J"] = roundAndFixToTwoDecimals(data["K"] - MAKSYMALNA_OPLATA_2025);
-		data["K"] = MAKSYMALNA_OPLATA_2025;
+	if (data["K"] > (od_04_2026
+		? MAKSYMALNA_OPLATA_2026
+		: MAKSYMALNA_OPLATA_2025
+	)) {
+		data["J"] = roundAndFixToTwoDecimals(data["K"] - (od_04_2026
+			? MAKSYMALNA_OPLATA_2026
+			: MAKSYMALNA_OPLATA_2025
+		));
+		data["K"] = (od_04_2026 ? MAKSYMALNA_OPLATA_2026 : MAKSYMALNA_OPLATA_2025);
 	}
 
 	return data;

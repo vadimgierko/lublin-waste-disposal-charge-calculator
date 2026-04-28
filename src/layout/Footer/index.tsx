@@ -3,16 +3,21 @@ import Counter from "./Counter";
 import Link from "next/link";
 
 export default function Footer() {
+	const currDate = new Date();
+
+	const currYear = currDate.getFullYear();
+
 	return (
 		<footer>
 			<Row>
 				<Col md={4}>
-				&copy; 2025{" "}
+				&copy; 2025-{currYear}{" "}
 				<a href="https://vadimgierko.com" target="_blank">
 					Vadim Gierko
-				</a> | <a href="https://github.com/vadimgierko/lublin-waste-disposal-charge-calculator" target="_blank">
-					[zajrzyj do kodu]
 				</a>
+				{/* | <a href="https://github.com/vadimgierko/lublin-waste-disposal-charge-calculator" target="_blank">
+					[zajrzyj do kodu]
+				</a> */}
 			</Col>
 
 			<Col md={4}>

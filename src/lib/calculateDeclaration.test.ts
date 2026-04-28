@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { calculateDeclaration } from "./calculateDeclaration";
 import { DeclarationData, DeclarationInput } from "@/types";
+import { MAKSYMALNA_OPLATA_2025, MAKSYMALNA_OPLATA_2026 } from "@/constants";
 
 const TESTS: Array<{
     name: string;
@@ -21,7 +22,7 @@ const TESTS: Array<{
                 J: undefined,
                 K: 221.76
             },
-            input: { zuzycie: 126, jestRodzinaWielodzietna: true }
+            input: { zuzycie: 126, jestRodzinaWielodzietna: true, od_04_2026: false }
         },
         {
             name: "2. RYCZAŁT - BRAK DANYCH O ZUŻYCIU WODY / BRAK WODOMIERZA / NOWY MIESZKANIEC",
@@ -36,10 +37,10 @@ const TESTS: Array<{
                 J: undefined,
                 K: 79.2
             },
-            input: { liczbaOsob: 2, jestRodzinaWielodzietna: false }
+            input: { liczbaOsob: 2, jestRodzinaWielodzietna: false, od_04_2026: false }
         },
         {
-            name: "3. WODA - PRZEKROCZENIE 7,8% PRZECIĘTNEGO DOCHODU",
+            name: "3.a. WODA - PRZEKROCZENIE 7,8% PRZECIĘTNEGO DOCHODU (DO 04 2026)",
             expectedResult: {
                 H1: {
                     zuzycie: 120,
@@ -50,9 +51,25 @@ const TESTS: Array<{
                 H3: 264,
                 I: undefined,
                 J: 16.97,
-                K: 247.03
+                K: MAKSYMALNA_OPLATA_2025
             },
-            input: { zuzycie: 120, jestRodzinaWielodzietna: false }
+            input: { zuzycie: 120, jestRodzinaWielodzietna: false, od_04_2026: false }
+        },
+        {
+            name: "3.b. WODA - PRZEKROCZENIE 7,8% PRZECIĘTNEGO DOCHODU (OD 04 2026)",
+            expectedResult: {
+                H1: {
+                    zuzycie: 140,
+                    miesieczneZuzycie: 23.33,
+                    oplataZaSmieci: 307.96
+                },
+                H2: undefined,
+                H3: 307.96,
+                I: undefined,
+                J: 34.94,
+                K: MAKSYMALNA_OPLATA_2026
+            },
+            input: { zuzycie: 140, jestRodzinaWielodzietna: false, od_04_2026: true }
         },
         {
             name: "4. WODA - BEZ ZWOLNIENIA",
@@ -68,7 +85,7 @@ const TESTS: Array<{
                 J: undefined,
                 K: 123.16
             },
-            input: { zuzycie: 56, jestRodzinaWielodzietna: false }
+            input: { zuzycie: 56, jestRodzinaWielodzietna: false, od_04_2026: false }
         },
     ];
 

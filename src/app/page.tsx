@@ -17,10 +17,12 @@ export default function Home() {
 
 	const [jestRozliczenie, setJestRozliczenie] = useState(true);
 	const [jestRodzinaWielodzietna, setJestRodzinaWielodzietna] = useState(false);
+	const [od_04_2026, set_od_04_2026] = useState(false);
 
 	function resetCheckBoxes() {
 		setJestRozliczenie(true);
 		setJestRodzinaWielodzietna(false);
+		set_od_04_2026(false);
 	}
 	//===================================
 	const [declaration, setDeclaration] = useState<DeclarationData>();
@@ -62,6 +64,7 @@ export default function Home() {
 		const d = calculateDeclaration({
 			zuzycie: liczba,
 			jestRodzinaWielodzietna,
+			od_04_2026
 		});
 
 		//============== ❗❗❗ COMMENT IN DEV ================❗❗❗
@@ -82,7 +85,11 @@ export default function Home() {
 			return;
 		}
 
-		const d = calculateDeclaration({ liczbaOsob, jestRodzinaWielodzietna });
+		const d = calculateDeclaration({
+			liczbaOsob,
+			jestRodzinaWielodzietna,
+			od_04_2026
+		});
 		//============== ❗❗❗ COMMENT IN DEV ================❗❗❗
 		await incrementCounter();
 
@@ -122,6 +129,18 @@ export default function Home() {
 			/>{" "}
 			<label htmlFor="rodzina-wielodzietna-checkbox" className="me-3">
 				Rodzina wielodzietna?
+			</label>
+			{/** OD 04 2026 CHECKBOX */}
+			<input
+				className="form-check-input shadow"
+				type="checkbox"
+				checked={od_04_2026}
+				id="od-04-2026-checkbox"
+				onChange={() => set_od_04_2026(!od_04_2026)}
+				disabled={Boolean(isFormSubmited)}
+			/>{" "}
+			<label htmlFor="od-04-2026-checkbox" className="me-3">
+				Dotyczy okresu od/po 04.2026?
 			</label>
 			<hr />
 			{isFormSubmited && declaration ? (

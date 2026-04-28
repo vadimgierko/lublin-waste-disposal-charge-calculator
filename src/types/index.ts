@@ -11,17 +11,28 @@ export type ResultLiczbaOsob = {
 	total: number;
 };
 
-export type DeclarationInput =
-	| {
-			zuzycie: number;
-			liczbaOsob?: undefined;
-			jestRodzinaWielodzietna: boolean;
-	  }
-	| {
-			liczbaOsob: number;
-			zuzycie?: undefined;
-			jestRodzinaWielodzietna: boolean;
-	  };
+export type DeclarationInput = ({
+	zuzycie: number;
+	liczbaOsob?: undefined;
+} | {
+	liczbaOsob: number;
+	zuzycie?: undefined;
+}) & {
+	jestRodzinaWielodzietna: boolean;
+	od_04_2026: boolean;
+}
+// | {
+// 		zuzycie: number;
+// 		liczbaOsob?: undefined;
+// 		jestRodzinaWielodzietna: boolean;
+// 		od_04_2026: boolean;
+//   }
+// | {
+// 		liczbaOsob: number;
+// 		zuzycie?: undefined;
+// 		jestRodzinaWielodzietna: boolean;
+// 		od_04_2026: boolean;
+//   };
 
 export type DeclarationData = {
 	H1: ResultRozliczenie | undefined;
