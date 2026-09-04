@@ -17,12 +17,12 @@ export default function Home() {
 
 	const [jestRozliczenie, setJestRozliczenie] = useState(true);
 	const [jestRodzinaWielodzietna, setJestRodzinaWielodzietna] = useState(false);
-	const [od_04_2026, set_od_04_2026] = useState(false);
+	const [od_04_2026, set_od_04_2026] = useState(true);
 
 	function resetCheckBoxes() {
 		setJestRozliczenie(true);
 		setJestRodzinaWielodzietna(false);
-		set_od_04_2026(false);
+		set_od_04_2026(true);
 	}
 	//===================================
 	const [declaration, setDeclaration] = useState<DeclarationData>();
